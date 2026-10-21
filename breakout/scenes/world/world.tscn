@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cr83bpyleg4b8" path="res://assets/textures/background.png" id="1_dphjl"]
 [ext_resource type="PackedScene" uid="uid://cvstwnwbs75xl" path="res://scenes/paddle/paddle.tscn" id="2_sl2e5"]
+[ext_resource type="PackedScene" uid="uid://dpwwvkfv48suw" path="res://scenes/ball/ball.tscn" id="3_1fp7r"]
 
 [node name="World" type="Node2D" unique_id=1805932890]
 
@@ -12,3 +13,7 @@ metadata/_edit_lock_ = true
 
 [node name="Paddle" parent="." unique_id=641126058 instance=ExtResource("2_sl2e5")]
 position = Vector2(99, 146)
+
+[node name="Ball" parent="." unique_id=271122136 instance=ExtResource("3_1fp7r")]
+position = Vector2(98, 136)
+speed = 120.0
