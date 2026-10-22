@@ -7,46 +7,30 @@ func _ready() -> void:
 	var direction := Vector2(randf_range(-1,1),-1).normalized()
 	velocity = direction * speed
 	
-	var inventory : Array[String] = ["key","potion","map","gem"]
-	report(inventory)
-	loot("swag",inventory)
-	report(inventory)
-	loot("gem",inventory)
-	report(inventory)
-	drop("gem",inventory)
-	report(inventory)
-	drop("gem",inventory)
-	report(inventory)
-	
-func report(bag:Array[String]):
-	if bag.is_empty():
-		print("The bag is empty")
-	else:
-		print("# of items: "+str(bag.size()))
-		for item:String in bag:
-			print(item)
-
-func loot(item:String,bag:Array[String]) -> void:
-	if bag.has:
-		print("already has item")
-	else:
-		bag.append(item)
-
-func drop(item:String,bag:Array[String]):
-	var item_index:= bag.find(item)
-	if  item_index>=0 :
-		bag.remove_at(item_index)
-	else:
-		print("not in the bag")
+	var wave_1:Array[String] = ["thing","bat","ghost","boss","test"]
+	var wave_2:Array[String] = ["boss","thing","bat","ghost","test"]
+	spawn_wave(wave_2)
 
 func spawn_enemies(count:int) -> void:
 	var x_val:=0
 	var enemies:Array[int]
 	for i:int in range(count):
-		enemies.append(64*i-1)
+		enemies.append(64*i)
 	print(enemies)
 	pass
 
+func spawn_wave(wave:Array[String]) -> void:
+	var enemy_count:=0
+	for enemy:String in wave:
+		enemy_count+=1
+		if enemy == "ghost":
+			continue
+		elif enemy == "boss":
+			print("BOSS - wave over")
+			break
+		else:
+			print("spawn %s" %enemy)
+	print("spawned: %d" % enemy_count)
 
 
 func _physics_process(delta: float) -> void:
