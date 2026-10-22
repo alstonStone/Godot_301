@@ -3,6 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://cr83bpyleg4b8" path="res://assets/textures/background.png" id="1_dphjl"]
 [ext_resource type="PackedScene" uid="uid://cvstwnwbs75xl" path="res://scenes/paddle/paddle.tscn" id="2_sl2e5"]
 [ext_resource type="PackedScene" uid="uid://dpwwvkfv48suw" path="res://scenes/ball/ball.tscn" id="3_1fp7r"]
+[ext_resource type="PackedScene" uid="uid://dgwy4nbt8wka4" path="res://scenes/bricks/brick.tscn" id="4_6m72w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_neqkb"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1fp7r"]
+size = Vector2(8, 216)
 
 [node name="World" type="Node2D" unique_id=1805932890]
 
@@ -16,4 +23,36 @@ position = Vector2(99, 146)
 
 [node name="Ball" parent="." unique_id=271122136 instance=ExtResource("3_1fp7r")]
 position = Vector2(98, 136)
-speed = 120.0
+
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=682094887]
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" unique_id=756092373]
+position = Vector2(-4, 80)
+shape = SubResource("RectangleShape2D_neqkb")
+
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=865856282]
+position = Vector2(208, 0)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=1819444803]
+position = Vector2(-4, 80)
+shape = SubResource("RectangleShape2D_neqkb")
+
+[node name="TopWall" type="StaticBody2D" parent="." unique_id=316089746]
+position = Vector2(180, 0)
+rotation = 1.5707964
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall" unique_id=135338605]
+position = Vector2(-4, 80)
+shape = SubResource("RectangleShape2D_1fp7r")
+
+[node name="Brick" parent="." unique_id=925958572 instance=ExtResource("4_6m72w")]
+position = Vector2(54, 67)
+
+[node name="Brick2" parent="." unique_id=347914073 instance=ExtResource("4_6m72w")]
+position = Vector2(137, 67)
+
+[node name="Brick3" parent="." unique_id=1837954105 instance=ExtResource("4_6m72w")]
+position = Vector2(98, 39)
