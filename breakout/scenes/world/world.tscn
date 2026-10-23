@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://cp5wos6f3udvx"]
 
+[ext_resource type="PackedScene" uid="uid://l1yyliiqo7he" path="res://scenes/level/level.tscn" id="1_6m72w"]
 [ext_resource type="Texture2D" uid="uid://cr83bpyleg4b8" path="res://assets/textures/background.png" id="1_dphjl"]
+[ext_resource type="Script" uid="uid://brrbthaosrtjk" path="res://scenes/world/world.gd" id="1_v5dby"]
 [ext_resource type="PackedScene" uid="uid://cvstwnwbs75xl" path="res://scenes/paddle/paddle.tscn" id="2_sl2e5"]
 [ext_resource type="PackedScene" uid="uid://dpwwvkfv48suw" path="res://scenes/ball/ball.tscn" id="3_1fp7r"]
-[ext_resource type="PackedScene" uid="uid://dgwy4nbt8wka4" path="res://scenes/bricks/brick.tscn" id="4_6m72w"]
+[ext_resource type="FontFile" uid="uid://bvpuvf23tvhj0" path="res://assets/fonts/boldpixels.ttf" id="6_t5ptc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_neqkb"]
 size = Vector2(8, 160)
@@ -11,7 +13,63 @@ size = Vector2(8, 160)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1fp7r"]
 size = Vector2(8, 216)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7pehq"]
+size = Vector2(231, 20)
+
+[sub_resource type="Animation" id="Animation_t5ptc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoseLabel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(34, -43)]
+}
+
+[sub_resource type="Animation" id="Animation_bq33v"]
+resource_name = "ball_dropped"
+length = 1.5
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoseLabel:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(34, -43), Vector2(34, 56), Vector2(34, 56), Vector2(34, -43)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"create_new_ball"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j2gmx"]
+_data = {
+&"RESET": SubResource("Animation_t5ptc"),
+&"ball_dropped": SubResource("Animation_bq33v")
+}
+
 [node name="World" type="Node2D" unique_id=1805932890]
+script = ExtResource("1_v5dby")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1062482929]
 texture = ExtResource("1_dphjl")
@@ -21,8 +79,9 @@ metadata/_edit_lock_ = true
 [node name="Paddle" parent="." unique_id=641126058 instance=ExtResource("2_sl2e5")]
 position = Vector2(99, 146)
 
-[node name="Ball" parent="." unique_id=271122136 instance=ExtResource("3_1fp7r")]
-position = Vector2(98, 136)
+[node name="Ball" parent="." unique_id=271122136 node_paths=PackedStringArray("paddle") instance=ExtResource("3_1fp7r")]
+position = Vector2(98, 138)
+paddle = NodePath("../Paddle")
 
 [node name="LeftWall" type="StaticBody2D" parent="." unique_id=682094887]
 metadata/_edit_lock_ = true
@@ -48,11 +107,29 @@ metadata/_edit_lock_ = true
 position = Vector2(-4, 80)
 shape = SubResource("RectangleShape2D_1fp7r")
 
-[node name="Brick" parent="." unique_id=925958572 instance=ExtResource("4_6m72w")]
-position = Vector2(54, 67)
+[node name="Level" parent="." unique_id=1345526721 instance=ExtResource("1_6m72w")]
 
-[node name="Brick2" parent="." unique_id=347914073 instance=ExtResource("4_6m72w")]
-position = Vector2(137, 67)
+[node name="BallDetectionArea" type="Area2D" parent="." unique_id=1166663201]
+metadata/_edit_lock_ = true
 
-[node name="Brick3" parent="." unique_id=1837954105 instance=ExtResource("4_6m72w")]
-position = Vector2(98, 39)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BallDetectionArea" unique_id=1188451008]
+position = Vector2(99.5, 172)
+shape = SubResource("RectangleShape2D_7pehq")
+
+[node name="LoseLabel" type="Label" parent="." unique_id=836414579]
+offset_left = 34.0
+offset_top = -43.0
+offset_right = 165.0
+offset_bottom = -16.0
+theme_override_colors/font_color = Color(0.98696905, 0.02214515, 0.99999994, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_t5ptc")
+theme_override_font_sizes/font_size = 30
+text = "womp womp"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1135379524]
+libraries/ = SubResource("AnimationLibrary_j2gmx")
+
+[connection signal="body_entered" from="BallDetectionArea" to="." method="_on_ball_detection_area_body_entered"]
