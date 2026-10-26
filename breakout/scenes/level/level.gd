@@ -3,16 +3,16 @@ extends Node2D
 
 
 var brick_blueprint := preload("res://scenes/bricks/brick.tscn")
+var hard_brick_blueprint := preload("res://scenes/bricks/hard_brick.tscn")
 var level : Array[String] = [
-	"101010101",
-	"000000000",
-	"000000000",
-	"000000000",
-	"000000000",
-	"000000000",
-	"000000000",
-	"000000000",
-	"000000000"
+	"OOOOHOO O",
+	"OO OOOOOO",
+	"OOOOHOOOO",
+	"OOOOOHHOO",
+	"HHOOOOOOO",
+	"OOOOO OOO",
+	"OOO OOOOO",
+	"OOHHOO OO"
 ]
 
 func _ready() -> void:
@@ -24,7 +24,12 @@ func _ready() -> void:
 	
 	for row:int in range(nb_rows):
 		for col:int in range(nb_cols):
-			if level[row][col] =="0":
-				var brick :Brick = brick_blueprint.instantiate()
+			var brick:Brick = null
+			if level[row][col] =="O":
+				brick = brick_blueprint.instantiate()
+			elif level[row][col] =="H":
+				brick = hard_brick_blueprint.instantiate()
+				
+			if brick !=null:
 				brick.position = Vector2(top_left.x + (col*x_gap), top_left.y + (row*y_gap))
 				add_child(brick)

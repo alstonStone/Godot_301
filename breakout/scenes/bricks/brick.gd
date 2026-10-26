@@ -1,6 +1,12 @@
 class_name Brick
 extends StaticBody2D
 
+@onready var brick_sprite: Sprite2D = $BrickSprite
+var health = brick_sprite.vframes
 
 func take_damage() -> void:
-	queue_free()
+	health -= 1
+	if health < 0:
+		queue_free()
+	else:
+		brick_sprite.frame += 1
