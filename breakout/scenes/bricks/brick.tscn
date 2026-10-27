@@ -14,3 +14,7 @@ texture = ExtResource("1_jwfv0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1135185813]
 shape = SubResource("RectangleShape2D_neqkb")
+
+[node name="ExplosionArea" type="Area2D" parent="." unique_id=1871906061]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea" unique_id=595073952]
