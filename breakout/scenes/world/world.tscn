@@ -146,7 +146,6 @@ position = Vector2(99.5, 172)
 shape = SubResource("RectangleShape2D_7pehq")
 
 [node name="LoseLabel" type="Label" parent="." unique_id=836414579]
-visible = false
 offset_left = 34.0
 offset_top = -43.0
 offset_right = 165.0

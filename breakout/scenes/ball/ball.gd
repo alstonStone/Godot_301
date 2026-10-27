@@ -4,6 +4,7 @@ extends CharacterBody2D
 
 @export var speed := 120.0 # pixels per second
 @export var paddle : Paddle
+@export var min_angle := 0.4
 
 enum State {Docked,Flying}
 var current_state:= State.Docked
@@ -35,6 +36,8 @@ func fly(delta:float) -> void:
 				var brick : Brick = collider
 				brick.take_damage()
 			velocity = velocity.bounce(collision.get_normal()).normalized() *speed
+			fix_shallow_angle()
+		
 
 func dock() -> void:
 	position.x = paddle.position.x
@@ -46,3 +49,13 @@ func get_velocity_from_paddle(paddel:Paddle) -> Vector2:
 	var paddle_half_width := 16
 	var offset := (position.x - paddel.position.x) / paddle_half_width
 	return Vector2(offset,-1).normalized() * speed
+
+
+func fix_shallow_angle() -> void:
+	var direction := velocity.normalized()
+	if direction.y >0 and direction.y < min_angle: 
+		direction.y = min_angle 
+	elif direction.y <0 and direction.y > -min_angle :
+		direction.y = -min_angle 
+	velocity = direction * speed
+	pass

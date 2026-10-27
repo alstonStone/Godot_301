@@ -18,7 +18,6 @@ func take_damage() -> void:
 			queue_free()
 			explode_neighbors()
 			destroyed.emit()
-			
 		else:
 			brick_sprite.frame += 1
 
