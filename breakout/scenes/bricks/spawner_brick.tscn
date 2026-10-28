@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dpu4sh8sdr64o"]
 
 [ext_resource type="PackedScene" uid="uid://dgwy4nbt8wka4" path="res://scenes/bricks/brick.tscn" id="1_abbgo"]
-[ext_resource type="Script" uid="uid://c545bu4rvqqto" path="res://scenes/bricks/spawner_brick.gd" id="2_fgg4s"]
 [ext_resource type="Texture2D" uid="uid://cwxnbv2qa1gcb" path="res://assets/textures/brick-balls.png" id="3_bcceo"]
 
 [node name="SpawnerBrick" unique_id=925958572 instance=ExtResource("1_abbgo")]
-script = ExtResource("2_fgg4s")
+balls_spawned = 2
+value = 200
 
 [node name="BrickSprite" parent="." index="0" unique_id=1720480334]
 texture = ExtResource("3_bcceo")

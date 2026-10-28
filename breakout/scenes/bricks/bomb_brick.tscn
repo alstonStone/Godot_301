@@ -8,6 +8,7 @@ radius = 10.999999
 height = 33.999996
 
 [node name="BombBrick" unique_id=925958572 instance=ExtResource("1_l725b")]
+value = 50
 
 [node name="BrickSprite" parent="." index="0" unique_id=1720480334]
 texture = ExtResource("2_v4v6b")

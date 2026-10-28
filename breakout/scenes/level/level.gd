@@ -2,6 +2,8 @@ class_name Level
 extends Node2D
 
 signal level_complete
+signal spawn_requested(amount: int, spawn_position: Vector2)
+signal brick_removed(brick:Brick)
 
 var brick_blueprint := preload("res://scenes/bricks/brick.tscn")
 var hard_brick_blueprint := preload("res://scenes/bricks/hard_brick.tscn")
@@ -56,7 +58,10 @@ func _ready() -> void:
 				nb_bricks +=1
 
 
-func brick_destroyed() -> void:
+func brick_destroyed(brick : Brick) -> void:
 	nb_bricks -=1
+	brick_removed.emit(brick)
+	if brick.balls_spawned > 0:
+		spawn_requested.emit(brick.balls_spawned,brick.position )
 	if nb_bricks <= 0:
 		level_complete.emit()

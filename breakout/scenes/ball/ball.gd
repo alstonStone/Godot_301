@@ -20,8 +20,13 @@ func _physics_process(delta: float) -> void:
 		dock()
 	else:
 		fly(delta)
+
+
+func launch(spawn_position: Vector2) -> void:
+	position = spawn_position
+	current_state = State.Flying
 	
-	
+
 
 func fly(delta:float) -> void:
 	var collision := move_and_collide(velocity*delta)

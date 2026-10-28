@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://cr83bpyleg4b8" path="res://assets/textures/background.png" id="1_dphjl"]
 [ext_resource type="Script" uid="uid://brrbthaosrtjk" path="res://scenes/world/world.gd" id="1_v5dby"]
 [ext_resource type="PackedScene" uid="uid://cvstwnwbs75xl" path="res://scenes/paddle/paddle.tscn" id="2_sl2e5"]
-[ext_resource type="PackedScene" uid="uid://dpwwvkfv48suw" path="res://scenes/ball/ball.tscn" id="3_1fp7r"]
 [ext_resource type="FontFile" uid="uid://bvpuvf23tvhj0" path="res://assets/fonts/boldpixels.ttf" id="6_t5ptc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_neqkb"]
@@ -105,12 +104,17 @@ texture = ExtResource("1_dphjl")
 centered = false
 metadata/_edit_lock_ = true
 
+[node name="ScoreLabel" type="Label" parent="." unique_id=2017885559]
+offset_left = 74.0
+offset_top = 79.0
+offset_right = 128.0
+offset_bottom = 95.0
+theme_override_colors/font_color = Color(0.51718444, 0.5171845, 0.51718444, 1)
+theme_override_fonts/font = ExtResource("6_t5ptc")
+text = "000000"
+
 [node name="Paddle" parent="." unique_id=641126058 instance=ExtResource("2_sl2e5")]
 position = Vector2(99, 146)
-
-[node name="Ball" parent="." unique_id=271122136 node_paths=PackedStringArray("paddle") instance=ExtResource("3_1fp7r")]
-position = Vector2(98, 138)
-paddle = NodePath("../Paddle")
 
 [node name="LeftWall" type="StaticBody2D" parent="." unique_id=682094887]
 metadata/_edit_lock_ = true
@@ -139,6 +143,7 @@ shape = SubResource("RectangleShape2D_1fp7r")
 [node name="Level" parent="." unique_id=1345526721 instance=ExtResource("1_6m72w")]
 
 [node name="BallDetectionArea" type="Area2D" parent="." unique_id=1166663201]
+collision_mask = 3
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BallDetectionArea" unique_id=1188451008]
@@ -174,4 +179,6 @@ horizontal_alignment = 1
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1135379524]
 libraries/ = SubResource("AnimationLibrary_j2gmx")
 
+[connection signal="brick_removed" from="Level" to="." method="_on_level_brick_removed"]
+[connection signal="spawn_requested" from="Level" to="." method="_on_level_spawn_requested"]
 [connection signal="body_entered" from="BallDetectionArea" to="." method="_on_ball_detection_area_body_entered"]
