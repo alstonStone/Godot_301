@@ -1,6 +1,8 @@
 class_name Ball
 extends CharacterBody2D
 
+@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 @export var speed := 120.0 # pixels per second
 @export var paddle : Paddle
@@ -32,16 +34,19 @@ func fly(delta:float) -> void:
 	var collision := move_and_collide(velocity*delta)
 	if collision != null:
 		speed+=1
+		bounce()
 		var collider := collision.get_collider()
 		if collider is Paddle:
 			#var paddle:Paddle = collider
 			velocity = get_velocity_from_paddle(paddle)
+			paddle.bounce()
 		else:
 			if collider is Brick:
 				var brick : Brick = collider
 				brick.take_damage()
 			velocity = velocity.bounce(collision.get_normal()).normalized() *speed
 			fix_shallow_angle()
+			
 		
 
 func dock() -> void:
@@ -55,6 +60,13 @@ func get_velocity_from_paddle(paddel:Paddle) -> Vector2:
 	var offset := (position.x - paddel.position.x) / paddle_half_width
 	return Vector2(offset,-1).normalized() * speed
 
+func bounce() -> void:
+	audio_stream_player.play()
+	create_tween() \
+	.tween_property(sprite_2d,"scale",Vector2(1,1),0.1) \
+	.from(Vector2(1.5,.5)) \
+	.set_trans(Tween.TRANS_BOUNCE) \
+	.set_ease(Tween.EASE_IN)
 
 func fix_shallow_angle() -> void:
 	var direction := velocity.normalized()

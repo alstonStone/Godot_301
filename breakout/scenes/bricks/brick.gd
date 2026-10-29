@@ -8,12 +8,11 @@ signal destroyed(brick : Brick)
 @onready var health := brick_sprite.vframes
 @onready var explosion_area: Area2D = $ExplosionArea
 
+
+
 @export var balls_spawned := 0
 @export var value := 10
 var is_dying = false
-
-
-
 
 
 func take_damage() -> void:

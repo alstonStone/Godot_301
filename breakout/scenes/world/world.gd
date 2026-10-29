@@ -8,6 +8,7 @@ var ball_blueprint = preload("res://scenes/ball/ball.tscn")
 @onready var level: Level = $Level
 @onready var score_label: Label = $ScoreLabel
 
+
 var balls_left := 0
 var score := 0
 
@@ -33,9 +34,25 @@ func create_new_ball() -> void:
 
 
 func level_completed() -> void:
-	animation_player.play("Win")
+	level.current_level_index+=1
+	if level.has_next_level():
+		level.current_level_index-=1
+		destroy_all_balls()
+		animation_player.play("Win")
+	else:
+		animation_player.play("GameOver")
+		destroy_all_balls()
 
+func load_next_level() -> void:
+	level.load_next_level()
+	create_new_ball()
 
+func destroy_all_balls() -> void:
+	for child: Node in get_children():
+		if child is Ball:
+			child.queue_free()
+	balls_left = 0
+	
 
 func _on_level_spawn_requested(amount: int, spawn_position: Vector2) -> void:
 	for i: int in amount:
